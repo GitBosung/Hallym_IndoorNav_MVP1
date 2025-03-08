@@ -1,16 +1,16 @@
 package com.example.hallym_indoor_nav_mvp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.hallym_indoor_nav_mvp.ui.theme.Hallym_indoor_nav_MVPTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,28 +20,42 @@ class MainActivity : ComponentActivity() {
         setContent {
             Hallym_indoor_nav_MVPTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding)
+                    MainScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        onNavigateToMap = { navigateToMap() }
                     )
                 }
             }
         }
     }
+
+    private fun navigateToMap() {
+        val intent = Intent(this, MapActivity::class.java)
+        startActivity(intent)
+    }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
+fun MainScreen(modifier: Modifier = Modifier, onNavigateToMap: () -> Unit) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Button(
+            onClick = { onNavigateToMap() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("도면 선택")
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainScreenPreview() {
     Hallym_indoor_nav_MVPTheme {
-        Greeting("Android")
+        MainScreen(onNavigateToMap = {})
     }
 }
